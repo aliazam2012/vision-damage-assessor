@@ -21,3 +21,14 @@ repos:
         entry: uv run --all-packages ruff format --force-exclude --check
         language: system
         types: [python]
+      - id: clean-room
+        name: clean room (public gate)
+        entry: python3 tools/purity.py .
+        language: system
+        pass_filenames: false
+      - id: private-denylist
+        name: private denylist
+        entry: python3 tools/denylist_check.py .
+        language: system
+        pass_filenames: false
+        stages: [pre-push]
