@@ -17,6 +17,7 @@ Install [uv](https://docs.astral.sh/uv/), then `make setup` and `make check`. `m
 1. Write the failing test first, then the code.
 2. `make check` must pass: ruff, mypy strict, pytest, and the reference evaluation.
 3. Open a pull request using the template; CI runs the same checks plus secret scanning and a dependency audit.
+4. Reviews follow [docs/CHECKLIST-code-review.md](docs/CHECKLIST-code-review.md); releases follow [docs/RUNBOOK-release.md](docs/RUNBOOK-release.md); incidents get a blameless postmortem from [docs/TPL-postmortem.md](docs/TPL-postmortem.md).
 
 ## Rules
 
