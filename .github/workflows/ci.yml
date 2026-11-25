@@ -24,6 +24,8 @@ jobs:
           version: "0.13.9"
       - run: uv python install 3.12
       - run: make setup
+      - name: headless browser for the carrier portal tests
+        run: uv run --all-packages playwright install --with-deps --only-shell chromium
       - run: make check
       - name: evaluation gate
         run: make eval
