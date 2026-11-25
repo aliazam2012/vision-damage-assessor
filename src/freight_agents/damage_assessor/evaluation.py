@@ -22,6 +22,7 @@ import datetime as dt
 import json
 import tempfile
 from collections import Counter
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from decimal import Decimal
 from pathlib import Path
@@ -31,13 +32,20 @@ from freight_agents.claims_intake.domain import ClaimFields
 from freight_agents.damage_assessor.calibration import (
     Calibration,
     Scored,
+    calibrate,
     expected_calibration_error,
     load_calibration,
 )
 from freight_agents.damage_assessor.domain import Finding, Outcome
 from freight_agents.damage_assessor.images import ImageLabel, labels_by_image
 from freight_agents.damage_assessor.rules import ClaimFacts, decide
-from freight_agents.damage_assessor.workflow import AssessmentDesk, Stores, reference_models
+from freight_agents.damage_assessor.workflow import (
+    AssessmentDesk,
+    ModelFor,
+    Stores,
+    reference_models,
+)
+from freight_agents.evals.recording import RecordResult, record_cases, replay_model
 from freight_agents.integrations.email import Attachment, EmailMessage
 from freight_agents.integrations.tms import FixtureTms
 from freight_agents.llm import Model, ModelTurn, ScriptedModel, ToolCall, Usage
@@ -73,6 +81,7 @@ class Result:
     metrics: dict[str, float]
     per_case: list[dict[str, Any]] = field(default_factory=list)
     by_type: dict[str, tuple[int, int]] = field(default_factory=dict)  # label: (right, total)
+    scored: list[Scored] = field(default_factory=list)  # every finding against its label
 
     def failures(self, floors: dict[str, tuple[str, float]]) -> list[str]:
         out = []
@@ -265,7 +274,9 @@ def run(
     data: Path = Path("data/damage"),
     calibration: Calibration | None = None,
     golden: Path = GOLDEN,
+    models_for: Callable[[str], ModelFor] | None = None,
 ) -> Result:
+    """Grade every shipment; models_for gives a shipment its vision model (reference if None)."""
     cal = calibration or load_calibration()
     labels: dict[str, ImageLabel] = labels_by_image(data)
     gold: dict[str, Finding] = {name: label.finding for name, label in labels.items()}
@@ -299,6 +310,7 @@ def run(
 
         desk = desk_with(models, "desk")
         for s in shipments:
+            desk.models = models_for(s.id) if models_for else models
             # 1. The rules on gold findings and the full documents.
             facts = ClaimFacts(
                 claim_id=s.id,
@@ -383,10 +395,67 @@ def run(
     }
     kinds = sorted({kind for kind, _ in by_type})
     table = {k: (by_type[(k, True)], by_type[(k, True)] + by_type[(k, False)]) for k in kinds}
-    return Result(metrics, rows, table)
+    return Result(metrics, rows, table, scored)
 
 
-def write_report(result: Result, directory: Path, day: str) -> Path:
+def run_recorded(
+    data: Path, cassettes: Path, model_name: str, calibration: Calibration | None = None
+) -> Result:
+    """The same shipments and graders, the photos read by a real model's recorded turns."""
+
+    def models_for(shipment_id: str) -> ModelFor:
+        return lambda photos: replay_model(shipment_id, cassettes, model_name)
+
+    return run(data, calibration, models_for=models_for)
+
+
+def recorded_calibration(result: Result, model: str, day: str, target: float = 0.9) -> Calibration:
+    """Thresholds measured on a recorded run's findings against the labels."""
+    return calibrate(result.scored, target, source="recorded", model=model, day=day)
+
+
+def record(
+    data: Path,
+    cassettes: Path,
+    live: Callable[[str], Model],
+    cap: float,
+    limit: int | None = None,
+    out: Callable[[str], object] = print,
+    golden: Path = GOLDEN,
+) -> RecordResult:
+    """Record a live vision model on every golden shipment's photos, under the cap."""
+    by_id = {s.id: s for s in load_shipments(golden)}
+    values = {s.id: s.value for s in by_id.values()}
+
+    def run_one(case_id: str, model: Model) -> None:
+        s = by_id[case_id]
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            desk = AssessmentDesk(
+                Stores.at(root / "desk"),
+                tms=_tms(root / "tms.json", values),
+                hand_off=lambda case_id, amount, summary, by: None,
+                models=lambda photos: model,
+                clock=lambda: AT,
+            )
+            claimed = s.claimed or s.value
+            desk.assess(
+                s.id, _fields(s.id, claimed, s.note), _message(s.id, s.photos, data, s.note)
+            )
+
+    ids = list(by_id)
+    return record_cases(
+        ids[:limit] if limit else ids, run_one, live, cassettes, cap, total=len(ids), out=out
+    )
+
+
+def write_report(
+    result: Result,
+    directory: Path,
+    day: str,
+    mode: str = "reference",
+    model: str | None = None,
+) -> Path:
     failures = result.failures(FLOORS)
     gate = "passed" if not failures else "failed: " + "; ".join(failures)
     m = result.metrics
@@ -415,10 +484,15 @@ def write_report(result: Result, directory: Path, day: str) -> Path:
         "The rules are measured for real: each shipment's expected outcome and amount are "
         "written by hand and compared with what the rules decide from the gold findings. The "
         "whole desk runs on every shipment too, from an email of photos to a hand-off. "
-        "Findings and calibration run in reference mode, where the findings are the labels: "
-        "findings accuracy reads 1.00 by construction, and the calibration error reflects "
-        "only the confidence the hand labels carry (below 1.0 where people could disagree). "
-        "Real numbers come from a recorded run of a vision model over the same photos.",
+        + (
+            "Findings and calibration run in reference mode, where the findings are the labels: "
+            "findings accuracy reads 1.00 by construction, and the calibration error reflects "
+            "only the confidence the hand labels carry (below 1.0 where people could disagree). "
+            "Real numbers come from a recorded run of a vision model over the same photos."
+            if mode == "reference"
+            else f"Findings replay the recorded turns of {model} reading every photo, so "
+            "findings accuracy and calibration here measure that model against the labels."
+        ),
         "",
         "## Metrics",
         "",
@@ -472,8 +546,8 @@ def write_report(result: Result, directory: Path, day: str) -> Path:
         ],
     ]
     directory.mkdir(parents=True, exist_ok=True)
-    path = directory / f"{day}-reference.md"
+    path = directory / f"{day}-{mode}.md"
     path.write_text("\n".join(lines) + "\n")
-    latest = {"date": day, "mode": "reference", "metrics": m}
+    latest = {"date": day, "mode": mode, "model": model, "metrics": m}
     (directory / "latest.json").write_text(json.dumps(latest, indent=2, sort_keys=True) + "\n")
     return path

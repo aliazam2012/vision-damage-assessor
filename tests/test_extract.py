@@ -1,15 +1,25 @@
 import base64
 import datetime as dt
+import io
 from typing import Any
 
 from freight_agents.damage_assessor.domain import Finding
 from freight_agents.damage_assessor.extract import Photo, extract, reference_model
 from freight_agents.llm import ImagePart, ModelTurn, ScriptedModel, TextPart, ToolCall, Usage
+from PIL import Image
 
 NOW = dt.datetime(2026, 11, 24, 16, 0, tzinfo=dt.UTC)
+
+
+def _png(shade: int) -> bytes:
+    out = io.BytesIO()
+    Image.new("RGB", (32, 24), (shade, shade, shade)).save(out, format="PNG")
+    return out.getvalue()
+
+
 PHOTOS = [
-    Photo(name="p1.png", media_type="image/png", data=b"\x89PNG one"),
-    Photo(name="blank.png", media_type="image/png", data=b"\x89PNG two"),
+    Photo(name="p1.png", media_type="image/png", data=_png(120)),
+    Photo(name="blank.png", media_type="image/png", data=_png(250)),
 ]
 CRUSHED = {
     "photo": "p1.png",

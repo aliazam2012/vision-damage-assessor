@@ -13,6 +13,7 @@ from __future__ import annotations
 import base64
 import datetime as dt
 import html
+import io
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 
@@ -23,6 +24,7 @@ from freight_agents.agentcore.taint import TaintSet
 from freight_agents.agentcore.tools import Risk, ToolRegistry, tool
 from freight_agents.damage_assessor.domain import Finding
 from freight_agents.llm import ImagePart, Model, ModelTurn, ScriptedModel, TextPart, ToolCall, Usage
+from PIL import Image
 from pydantic import BaseModel, ConfigDict
 
 PROMPT = """<instructions>
@@ -52,6 +54,36 @@ class Photo:
     name: str
     media_type: str
     data: bytes
+
+
+# What the vision API accepts (platform.claude.com/docs/en/build-with-claude/vision, read
+# 2026-11-25): JPEG, PNG, GIF and WebP; at most 8000 px a side, 3000 px when a request has
+# more than 20 images; 10 MB base64 per image on the Claude API, 5 MB on Bedrock.
+ACCEPTED = {"JPEG": "image/jpeg", "PNG": "image/png", "GIF": "image/gif", "WEBP": "image/webp"}
+LONG_EDGE = 1568  # under every limit above, whatever a model's own resize threshold
+MAX_BYTES = 3_500_000  # base64 grows by a third: still under 5 MB once encoded
+
+
+def prepare_photo(photo: Photo) -> Photo | None:
+    """A photo the API accepts: unchanged when it already fits, else a JPEG within limits.
+
+    The media type comes from the bytes, not the file name. Bytes that are not a readable
+    image (a HEIC with no decoder, a corrupt file) give None: the photo is not sent.
+    """
+    try:
+        with Image.open(io.BytesIO(photo.data)) as image:
+            image.load()
+            kind = ACCEPTED.get(image.format or "")
+            fits = max(image.size) <= LONG_EDGE and len(photo.data) <= MAX_BYTES
+            if kind is not None and fits:
+                return Photo(name=photo.name, media_type=kind, data=photo.data)
+            flat = image.convert("RGB")
+    except (OSError, ValueError, Image.DecompressionBombError):
+        return None
+    flat.thumbnail((LONG_EDGE, LONG_EDGE))
+    out = io.BytesIO()
+    flat.save(out, format="JPEG", quality=85)
+    return Photo(name=photo.name, media_type="image/jpeg", data=out.getvalue())
 
 
 class RecordFindingsIn(BaseModel):
@@ -102,6 +134,7 @@ def extract(
         recordings.append(list(args.findings))
         return Recorded(recorded=len(args.findings))
 
+    ready = [p for p in (prepare_photo(photo) for photo in photos) if p is not None]
     taint = TaintSet()
     taint.add(description, "claim.description")
     for photo in photos:
@@ -117,13 +150,13 @@ def extract(
     ctx = HookContext(
         run_id=f"findings-{now:%Y%m%dT%H%M%S}", agent="damage-findings", now=now, taint=taint
     )
-    result = agent.run(message_parts(photos, description), ctx)
+    result = agent.run(message_parts(ready, description), ctx)
 
-    sent = [photo.name for photo in photos]
+    sent = {photo.name for photo in ready}
     latest = recordings[-1] if recordings else []
     kept = [f for f in latest if f.photo in sent]
     findings: list[Finding] = []
-    for name in sent:
+    for name in (photo.name for photo in photos):
         about = [f for f in kept if f.photo == name]
         findings += about or [Finding(photo=name, confidence=0.0)]
     return Extraction(

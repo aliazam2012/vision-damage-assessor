@@ -138,14 +138,45 @@ def _mcp(args: argparse.Namespace) -> int:
 
 
 def _eval(args: argparse.Namespace) -> int:
-    from freight_agents.damage_assessor.evaluation import FLOORS, run, write_report
+    from freight_agents.damage_assessor.calibration import DEFAULT_FILE
+    from freight_agents.damage_assessor.evaluation import (
+        FLOORS,
+        record,
+        recorded_calibration,
+        run,
+        run_recorded,
+        write_report,
+    )
+    from freight_agents.evals.recording import StaleCassette
 
-    result = run(args.data)
+    if args.mode == "record":
+        from freight_agents.llm.anthropic_adapter import AnthropicModel
+
+        def live(case_id: str) -> Model:
+            return AnthropicModel(model=args.model_name, effort="low")
+
+        return record(args.data, args.cassettes, live, args.max_usd, args.limit).code
+    if args.write_calibration and args.mode != "recorded":
+        print("--write-calibration needs --mode recorded: thresholds come from a real model")
+        return 2
+    try:
+        result = (
+            run(args.data)
+            if args.mode == "reference"
+            else run_recorded(args.data, args.cassettes, args.model_name)
+        )
+    except StaleCassette as exc:
+        print(f"FAIL {exc}")
+        return 2
+    if args.write_calibration:
+        recorded_calibration(result, args.model_name, args.day).write(DEFAULT_FILE)
+        print(f"calibration: {DEFAULT_FILE}")
     for name, value in result.metrics.items():
         print(f"{name}: {value:.2f}")
     failures = result.failures(FLOORS)
     print("gate: " + ("passed" if not failures else "failed: " + "; ".join(failures)))
-    print(f"report: {write_report(result, args.reports, args.day)}")
+    model = None if args.mode == "reference" else args.model_name
+    print(f"report: {write_report(result, args.reports, args.day, args.mode, model)}")
     return 1 if failures else 0
 
 
@@ -190,6 +221,20 @@ def main(argv: list[str] | None = None) -> int:
         "--reports", type=Path, default=Path("apps/damage-assessor/evals/reports")
     )
     evaluate.add_argument("--day", default=dt.date.today().isoformat())
+    evaluate.add_argument(
+        "--mode", choices=["reference", "recorded", "record"], default="reference"
+    )
+    evaluate.add_argument(
+        "--cassettes", type=Path, default=Path("apps/damage-assessor/evals/cassettes")
+    )
+    evaluate.add_argument("--model-name", default="claude-opus-5-5")
+    evaluate.add_argument("--max-usd", type=float, default=0.0, help="record: the approved cap")
+    evaluate.add_argument("--limit", type=int, help="record: only the first N shipments")
+    evaluate.add_argument(
+        "--write-calibration",
+        action="store_true",
+        help="recorded: write calibration.json from the recorded findings",
+    )
 
     for sub in commands.choices.values():
         sub.add_argument("--state", type=Path, default=DEFAULT_STATE)
