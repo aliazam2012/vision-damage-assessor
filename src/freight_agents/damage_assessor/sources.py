@@ -10,7 +10,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from functools import cache
 
-from freight_agents.knowledge.index import Passage, default_corpus
+from freight_agents.claims_intake.rules import claim_rules
+from freight_agents.knowledge.index import Passage
 
 
 @dataclass(frozen=True)
@@ -84,7 +85,7 @@ SOURCES: dict[str, Source] = {
 
 @cache
 def _passages() -> dict[tuple[str, str], Passage]:
-    return {(p.doc_id, p.heading): p for p in default_corpus()}
+    return {(p.doc_id, p.heading): p for p in claim_rules()}
 
 
 def passage(source_id: str) -> Passage:

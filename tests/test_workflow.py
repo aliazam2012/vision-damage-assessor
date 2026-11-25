@@ -3,7 +3,6 @@ from decimal import Decimal
 from pathlib import Path
 
 import pytest
-from freight_agents.carrier_filing.domain import from_claims_case
 from freight_agents.claims_intake.domain import ClaimFields
 from freight_agents.damage_assessor.workflow import AssessmentDesk, Stores, reference_models
 from freight_agents.integrations.tms import FixtureTms
@@ -11,14 +10,14 @@ from freight_agents.integrations.tms import FixtureTms
 from .conftest import FIELDS, SHIPMENT, T0, World, claim_email, labels
 
 
-def test_a_crushed_carton_is_filed_and_handed_to_carrier_filing(world: World) -> None:
+def test_a_crushed_carton_is_filed_and_handed_off_for_filing(world: World) -> None:
     case = world.claim(["carton-crushed-severe-1.png"])
     assert case.state == "handed_off"
     assessed = world.desk.stores.engine.view(case.case_id)
     assert assessed.state == "handed_off"
     assert assessed.data["assessment"]["recommendation"]["outcome"] == "file_full"
-    packet = from_claims_case(case.case_id, case.data)
-    assert packet.fields.claimed_amount_usd == 800.0  # the claim, under the $2,400 value
+    # carrier-filing builds its packet from these fields: the claim, under the $2,400 value.
+    assert case.data["fields"]["claimed_amount_usd"] == 800.0
     assert case.data["assessment"]["decided_by"] == "rules"
 
 

@@ -23,12 +23,12 @@ repos:
         types: [python]
       - id: clean-room
         name: clean room (public gate)
-        entry: python3 tools/purity.py .
+        entry: uv run --all-packages freight-purity .
         language: system
         pass_filenames: false
       - id: private-denylist
         name: private denylist
-        entry: python3 tools/denylist_check.py .
+        entry: uv run --all-packages freight-denylist .
         language: system
         pass_filenames: false
         stages: [pre-push]

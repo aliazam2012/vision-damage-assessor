@@ -35,8 +35,9 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-      - run: python3 tools/purity.py .
-      - run: python3 tools/check_links.py .
+      - uses: astral-sh/setup-uv@d0cc045d04ccac9d8b7881df0226f9e82c39688e # v6
+      - run: uv run --package freight-agents-devtools freight-purity .
+      - run: uv run --package freight-agents-devtools freight-links .
 
   secrets:
     name: secret scanning
