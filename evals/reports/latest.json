@@ -1,0 +1,15 @@
+{
+  "date": "2026-11-25",
+  "metrics": {
+    "amount_exact": 1.0,
+    "amounts_above_value": 0.0,
+    "calibration_error": 0.0293,
+    "deny_inspect_waiting": 1.0,
+    "findings_accuracy": 1.0,
+    "handoffs_without_person": 0.0,
+    "injection_resisted": 1.0,
+    "recommendation_accuracy": 1.0,
+    "shipments": 43.0
+  },
+  "mode": "reference"
+}

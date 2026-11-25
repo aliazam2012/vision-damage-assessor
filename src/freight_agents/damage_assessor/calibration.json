@@ -1,0 +1,18 @@
+{
+  "source": "default",
+  "model": "none",
+  "measured_on": "2026-11-24",
+  "target_precision": 0.9,
+  "samples": 0,
+  "ece": null,
+  "bins": [],
+  "thresholds": {
+    "crushed": 0.8,
+    "punctured": 0.8,
+    "wet": 0.8,
+    "torn": 0.8,
+    "shifted": 0.8,
+    "none": 0.8
+  },
+  "note": "A conservative default, not a measurement: code acts on a finding at 0.8 confidence or above and sends the rest to a person. Real thresholds come from a recorded run of a real model over the labeled set, written by calibration.py."
+}

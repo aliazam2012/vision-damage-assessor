@@ -1,0 +1,36 @@
+[project]
+name = "freight-agents-damage-assessor"
+version = "0.1.0"
+description = "Freight damage photos to structured findings, then a cited claim recommendation decided in code"
+license = "MIT"
+requires-python = ">=3.12"
+dependencies = [
+    "pillow>=11.0",
+    "pydantic>=2.7",
+    "freight-agents-llm",
+    "freight-agents-agentcore",
+    "freight-agents-knowledge",
+    "freight-agents-statecore",
+    "freight-agents-integrations",
+    "freight-agents-claims-intake",
+    "freight-agents-mcp",
+]
+
+[project.scripts]
+freight-damage = "freight_agents.damage_assessor.cli:main"
+
+[tool.uv.sources]
+freight-agents-llm = { workspace = true }
+freight-agents-agentcore = { workspace = true }
+freight-agents-knowledge = { workspace = true }
+freight-agents-statecore = { workspace = true }
+freight-agents-integrations = { workspace = true }
+freight-agents-claims-intake = { workspace = true }
+freight-agents-mcp = { workspace = true }
+
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/freight_agents"]

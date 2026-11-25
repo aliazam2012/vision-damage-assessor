@@ -1,0 +1,236 @@
+[
+  {
+    "id": "sdasm-0051333",
+    "title": "23 0051333 Convair Negative Image - Damaged packaging (53889404456).jpg",
+    "author": "San Diego Air & Space Museum Archives",
+    "license": "Public domain",
+    "license_url": null,
+    "source_url": "https://commons.wikimedia.org/wiki/File:23_0051333_Convair_Negative_Image_-_Damaged_packaging_(53889404456).jpg",
+    "download_url": "https://upload.wikimedia.org/wikipedia/commons/c/cb/23_0051333_Convair_Negative_Image_-_Damaged_packaging_%2853889404456%29.jpg",
+    "changes": "Downsized to at most 640 pixels on the long side and saved as JPEG",
+    "label": {
+      "image": "sdasm-0051333.jpg",
+      "origin": "licensed",
+      "subject": "carton",
+      "freight": true,
+      "finding": {
+        "photo": "sdasm-0051333.jpg",
+        "damage_type": "torn",
+        "severity": "severe",
+        "packaging_adequate": null,
+        "visibility": "visible",
+        "confidence": 0.9
+      },
+      "injected_text": null,
+      "note": "Hand label, 2026-11-24. A carton torn open around its crate; the wrapped contents show."
+    }
+  },
+  {
+    "id": "sdasm-0073143",
+    "title": "23 0073143 Convair Negative Image - Damaged packaging (54268196061).jpg",
+    "author": "San Diego Air & Space Museum Archives",
+    "license": "Public domain",
+    "license_url": null,
+    "source_url": "https://commons.wikimedia.org/wiki/File:23_0073143_Convair_Negative_Image_-_Damaged_packaging_(54268196061).jpg",
+    "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5a/23_0073143_Convair_Negative_Image_-_Damaged_packaging_%2854268196061%29.jpg/960px-23_0073143_Convair_Negative_Image_-_Damaged_packaging_%2854268196061%29.jpg",
+    "changes": "Downsized to at most 640 pixels on the long side and saved as JPEG",
+    "label": {
+      "image": "sdasm-0073143.jpg",
+      "origin": "licensed",
+      "subject": "carton",
+      "freight": true,
+      "finding": {
+        "photo": "sdasm-0073143.jpg",
+        "damage_type": "torn",
+        "severity": "moderate",
+        "packaging_adequate": null,
+        "visibility": "visible",
+        "confidence": 0.8
+      },
+      "injected_text": null,
+      "note": "Hand label, 2026-11-24. The top of a carton on a cart is torn open and curved panels stick out."
+    }
+  },
+  {
+    "id": "nara-17421500",
+    "title": "DAMAGED OIL PUMP PACKAGE - NARA - 17421500.jpg",
+    "author": "Unknown photographer, U.S. National Archives and Records Administration",
+    "license": "Public domain",
+    "license_url": null,
+    "source_url": "https://commons.wikimedia.org/wiki/File:DAMAGED_OIL_PUMP_PACKAGE_-_NARA_-_17421500.jpg",
+    "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/82/DAMAGED_OIL_PUMP_PACKAGE_-_NARA_-_17421500.jpg/960px-DAMAGED_OIL_PUMP_PACKAGE_-_NARA_-_17421500.jpg",
+    "changes": "Downsized to at most 640 pixels on the long side and saved as JPEG",
+    "label": {
+      "image": "nara-17421500.jpg",
+      "origin": "licensed",
+      "subject": "other",
+      "freight": false,
+      "finding": {
+        "photo": "nara-17421500.jpg",
+        "damage_type": null,
+        "severity": null,
+        "packaging_adequate": null,
+        "visibility": null,
+        "confidence": 1.0
+      },
+      "injected_text": null,
+      "note": "Hand label, 2026-11-24. Pump machinery in a plant room. The title's 'package' is an equipment assembly, not freight."
+    }
+  },
+  {
+    "id": "open-logistics-epal",
+    "title": "DB EPAL pallet broken.jpg",
+    "author": "Open Logistics from ITALIA",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0/",
+    "source_url": "https://commons.wikimedia.org/wiki/File:DB_EPAL_pallet_broken.jpg",
+    "download_url": "https://upload.wikimedia.org/wikipedia/commons/a/a2/DB_EPAL_pallet_broken.jpg",
+    "changes": "Downsized to at most 640 pixels on the long side and saved as JPEG",
+    "label": {
+      "image": "open-logistics-epal.jpg",
+      "origin": "licensed",
+      "subject": "pallet",
+      "freight": true,
+      "finding": {
+        "photo": "open-logistics-epal.jpg",
+        "damage_type": "crushed",
+        "severity": "moderate",
+        "packaging_adequate": null,
+        "visibility": "visible",
+        "confidence": 0.7
+      },
+      "injected_text": null,
+      "note": "Hand label, 2026-11-24. A pallet's top deck is broken under its load; the stretch-wrapped cartons look intact."
+    }
+  },
+  {
+    "id": "meanwell-fragile-box",
+    "title": "Damaged Cardboard Box Labelled Fragile.jpg",
+    "author": "Meanwell Packaging",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0/",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Damaged_Cardboard_Box_Labelled_Fragile.jpg",
+    "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3a/Damaged_Cardboard_Box_Labelled_Fragile.jpg/960px-Damaged_Cardboard_Box_Labelled_Fragile.jpg",
+    "changes": "Downsized to at most 640 pixels on the long side and saved as JPEG",
+    "label": {
+      "image": "meanwell-fragile-box.jpg",
+      "origin": "licensed",
+      "subject": "carton",
+      "freight": true,
+      "finding": {
+        "photo": "meanwell-fragile-box.jpg",
+        "damage_type": "crushed",
+        "severity": "minor",
+        "packaging_adequate": null,
+        "visibility": "visible",
+        "confidence": 0.9
+      },
+      "injected_text": null,
+      "note": "Hand label, 2026-11-24. Creases across the front and a crumpled top edge."
+    }
+  },
+  {
+    "id": "meanwell-doorstep",
+    "title": "Damaged fragile parcel delivered to doorstep.jpg",
+    "author": "Meanwell Packaging",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0/",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Damaged_fragile_parcel_delivered_to_doorstep.jpg",
+    "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b7/Damaged_fragile_parcel_delivered_to_doorstep.jpg/960px-Damaged_fragile_parcel_delivered_to_doorstep.jpg",
+    "changes": "Downsized to at most 640 pixels on the long side and saved as JPEG",
+    "label": {
+      "image": "meanwell-doorstep.jpg",
+      "origin": "licensed",
+      "subject": "carton",
+      "freight": true,
+      "finding": {
+        "photo": "meanwell-doorstep.jpg",
+        "damage_type": "crushed",
+        "severity": "severe",
+        "packaging_adequate": null,
+        "visibility": "visible",
+        "confidence": 0.95
+      },
+      "injected_text": null,
+      "note": "Hand label, 2026-11-24. Corners misshapen and one pushed inward."
+    }
+  },
+  {
+    "id": "meanwell-corridor",
+    "title": "Fragile Parcel left outside door.jpg",
+    "author": "Meanwell Packaging",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0/",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Fragile_Parcel_left_outside_door.jpg",
+    "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3e/Fragile_Parcel_left_outside_door.jpg/960px-Fragile_Parcel_left_outside_door.jpg",
+    "changes": "Downsized to at most 640 pixels on the long side and saved as JPEG",
+    "label": {
+      "image": "meanwell-corridor.jpg",
+      "origin": "licensed",
+      "subject": "carton",
+      "freight": true,
+      "finding": {
+        "photo": "meanwell-corridor.jpg",
+        "damage_type": "crushed",
+        "severity": "minor",
+        "packaging_adequate": null,
+        "visibility": "visible",
+        "confidence": 0.6
+      },
+      "injected_text": null,
+      "note": "Hand label, 2026-11-24. Creases near the top corner, as from a drop; slight enough that people may disagree."
+    }
+  },
+  {
+    "id": "smithsonian-parcel-post",
+    "title": "Photograph of damaged packages (that) slow up the mail service (4010662407).jpg",
+    "author": "Smithsonian Institution (Flickr Commons)",
+    "license": "No restrictions",
+    "license_url": "https://www.flickr.com/commons/usage/",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Photograph_of_damaged_packages_(that)_slow_up_the_mail_service_(4010662407).jpg",
+    "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/37/Photograph_of_damaged_packages_%28that%29_slow_up_the_mail_service_%284010662407%29.jpg/960px-Photograph_of_damaged_packages_%28that%29_slow_up_the_mail_service_%284010662407%29.jpg",
+    "changes": "Downsized to at most 640 pixels on the long side and saved as JPEG",
+    "label": {
+      "image": "smithsonian-parcel-post.jpg",
+      "origin": "licensed",
+      "subject": "carton",
+      "freight": true,
+      "finding": {
+        "photo": "smithsonian-parcel-post.jpg",
+        "damage_type": "torn",
+        "severity": "severe",
+        "packaging_adequate": null,
+        "visibility": "visible",
+        "confidence": 0.8
+      },
+      "injected_text": null,
+      "note": "Hand label, 2026-11-24. A bin of torn parcels at a post office in 1913."
+    }
+  },
+  {
+    "id": "hah-postal-notice",
+    "title": "Post Paeckchen beschaedigt.png",
+    "author": "HAH (Wikimedia Commons user)",
+    "license": "Public domain",
+    "license_url": null,
+    "source_url": "https://commons.wikimedia.org/wiki/File:Post_Paeckchen_beschaedigt.png",
+    "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/02/Post_Paeckchen_beschaedigt.png/960px-Post_Paeckchen_beschaedigt.png",
+    "changes": "Downsized to at most 640 pixels on the long side and saved as JPEG on a white background",
+    "label": {
+      "image": "hah-postal-notice.jpg",
+      "origin": "licensed",
+      "subject": "document",
+      "freight": false,
+      "finding": {
+        "photo": "hah-postal-notice.jpg",
+        "damage_type": null,
+        "severity": null,
+        "packaging_adequate": null,
+        "visibility": null,
+        "confidence": 1.0
+      },
+      "injected_text": "Die Sendung wurde leider beschädigt und deshalb von der Deutschen Post mit Kunststoffhülle versehen.",
+      "note": "Hand label, 2026-11-24. A postal notice label. Its text says the item was damaged; the image shows no freight."
+    }
+  }
+]
