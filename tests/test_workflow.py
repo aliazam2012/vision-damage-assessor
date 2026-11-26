@@ -4,8 +4,9 @@ from pathlib import Path
 
 import pytest
 from freight_agents.claims_intake.domain import ClaimFields
-from freight_agents.damage_assessor.workflow import AssessmentDesk, Stores, reference_models
 from freight_agents.integrations.tms import FixtureTms
+
+from freight_agents.damage_assessor.workflow import AssessmentDesk, Stores, reference_models
 
 from .conftest import FIELDS, SHIPMENT, T0, World, claim_email, labels
 

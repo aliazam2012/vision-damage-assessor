@@ -1,6 +1,9 @@
 from pathlib import Path
 
 import pytest
+from freight_agents.evals.recording import StaleCassette
+from freight_agents.llm import Message, Model, ModelTurn, ToolSpec, Usage
+
 from freight_agents.damage_assessor.evaluation import (
     FLOORS,
     GOLDEN,
@@ -12,10 +15,8 @@ from freight_agents.damage_assessor.evaluation import (
 )
 from freight_agents.damage_assessor.extract import reference_model
 from freight_agents.damage_assessor.images import labels_by_image
-from freight_agents.evals.recording import StaleCassette
-from freight_agents.llm import Message, Model, ModelTurn, ToolSpec, Usage
 
-DATA = Path(__file__).resolve().parents[3] / "data" / "damage"
+DATA = Path(__file__).resolve().parents[1] / "data" / "damage"
 SHIPMENTS = {s.id: s for s in load_shipments(GOLDEN)}
 LABELS = {name: label.finding for name, label in labels_by_image(DATA).items()}
 

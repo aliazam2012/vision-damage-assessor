@@ -2,6 +2,8 @@ import datetime as dt
 from decimal import Decimal
 
 import pytest
+from pydantic import ValidationError
+
 from freight_agents.damage_assessor.domain import (
     Assessment,
     Evidence,
@@ -10,7 +12,6 @@ from freight_agents.damage_assessor.domain import (
     Recommendation,
 )
 from freight_agents.damage_assessor.sources import SOURCES, passage
-from pydantic import ValidationError
 
 AT = dt.datetime(2026, 11, 24, 15, 0, tzinfo=dt.UTC)
 

@@ -14,10 +14,11 @@ from __future__ import annotations
 from collections.abc import Sequence
 from decimal import ROUND_HALF_UP, Decimal
 
+from pydantic import BaseModel, ConfigDict, Field
+
 from freight_agents.damage_assessor.calibration import Calibration
 from freight_agents.damage_assessor.domain import Evidence, Finding, Outcome, Recommendation
 from freight_agents.damage_assessor.sources import SOURCES
-from pydantic import BaseModel, ConfigDict, Field
 
 CENT = Decimal("0.01")
 RANK = {"none": 0, "minor": 1, "moderate": 2, "severe": 3, "total": 4}

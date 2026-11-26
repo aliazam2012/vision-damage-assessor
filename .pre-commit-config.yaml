@@ -13,22 +13,22 @@ repos:
     hooks:
       - id: ruff-check
         name: ruff check
-        entry: uv run --all-packages ruff check --force-exclude
+        entry: uv run ruff check --force-exclude
         language: system
         types: [python]
       - id: ruff-format
         name: ruff format
-        entry: uv run --all-packages ruff format --force-exclude --check
+        entry: uv run ruff format --force-exclude --check
         language: system
         types: [python]
       - id: clean-room
         name: clean room (public gate)
-        entry: uv run --all-packages freight-purity .
+        entry: uv run freight-purity .
         language: system
         pass_filenames: false
       - id: private-denylist
         name: private denylist
-        entry: uv run --all-packages freight-denylist .
+        entry: uv run freight-denylist .
         language: system
         pass_filenames: false
         stages: [pre-push]

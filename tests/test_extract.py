@@ -3,10 +3,11 @@ import datetime as dt
 import io
 from typing import Any
 
-from freight_agents.damage_assessor.domain import Finding
-from freight_agents.damage_assessor.extract import Photo, extract, reference_model
 from freight_agents.llm import ImagePart, ModelTurn, ScriptedModel, TextPart, ToolCall, Usage
 from PIL import Image
+
+from freight_agents.damage_assessor.domain import Finding
+from freight_agents.damage_assessor.extract import Photo, extract, reference_model
 
 NOW = dt.datetime(2026, 11, 24, 16, 0, tzinfo=dt.UTC)
 

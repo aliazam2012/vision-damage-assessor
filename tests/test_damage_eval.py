@@ -2,6 +2,7 @@ from decimal import Decimal
 from pathlib import Path
 
 import pytest
+
 from freight_agents.damage_assessor.calibration import Calibration, load_calibration
 from freight_agents.damage_assessor.evaluation import (
     FLOORS,
@@ -11,7 +12,7 @@ from freight_agents.damage_assessor.evaluation import (
     write_report,
 )
 
-DATA = Path(__file__).resolve().parents[3] / "data" / "damage"
+DATA = Path(__file__).resolve().parents[1] / "data" / "damage"
 
 
 @pytest.fixture(scope="module")

@@ -3,13 +3,14 @@ from pathlib import Path
 from typing import Any
 
 import pytest
+
 from freight_agents.damage_assessor.calibration import Calibration, load_calibration
 from freight_agents.damage_assessor.domain import Finding, Outcome, Recommendation
 from freight_agents.damage_assessor.images import load_labels
 from freight_agents.damage_assessor.rules import ClaimFacts, decide
 from freight_agents.damage_assessor.sources import SOURCES
 
-DATA = Path(__file__).resolve().parents[3] / "data" / "damage"
+DATA = Path(__file__).resolve().parents[1] / "data" / "damage"
 CAL = load_calibration()  # the committed default: 0.8 for every finding type
 
 

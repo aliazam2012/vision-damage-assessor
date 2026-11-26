@@ -6,15 +6,16 @@ from typing import Any
 
 import anyio
 from freight_agents.claims_intake.workflow import ClaimsIntake
-from freight_agents.damage_assessor.cli import main
-from freight_agents.damage_assessor.mcp_server import build_damage_server
 from freight_agents.integrations.email import parse_eml
 from freight_agents.llm import ScriptedModel
 from mcp import Client
 
+from freight_agents.damage_assessor.cli import main
+from freight_agents.damage_assessor.mcp_server import build_damage_server
+
 from .conftest import FIELDS, World, claim_eml, intake_script
 
-DATA = Path(__file__).resolve().parents[3] / "data" / "damage"
+DATA = Path(__file__).resolve().parents[1] / "data" / "damage"
 
 
 def run(*argv: str) -> tuple[int, str]:

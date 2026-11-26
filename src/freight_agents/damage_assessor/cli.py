@@ -17,15 +17,16 @@ from pathlib import Path
 from freight_agents.claims_intake.domain import ClaimFields
 from freight_agents.claims_intake.workflow import ClaimsIntake
 from freight_agents.claims_intake.workflow import Stores as ClaimsStores
+from freight_agents.integrations.email import parse_eml
+from freight_agents.integrations.tms import FixtureTms
+from freight_agents.llm import Model
+
 from freight_agents.damage_assessor.calibration import load_calibration
 from freight_agents.damage_assessor.domain import Finding, Recommendation
 from freight_agents.damage_assessor.extract import Photo, extract
 from freight_agents.damage_assessor.images import labels_by_image
 from freight_agents.damage_assessor.rules import ClaimFacts, decide
 from freight_agents.damage_assessor.workflow import AssessmentDesk, Stores, reference_models
-from freight_agents.integrations.email import parse_eml
-from freight_agents.integrations.tms import FixtureTms
-from freight_agents.llm import Model
 
 DEFAULT_STATE = Path("var/damage")
 DEFAULT_CLAIMS = Path("var/claims")
@@ -121,8 +122,9 @@ def _resolve(args: argparse.Namespace) -> int:
 
 def _mcp(args: argparse.Namespace) -> int:
     import anyio
-    from freight_agents.damage_assessor.mcp_server import build_damage_server
     from mcp.server.stdio import stdio_server
+
+    from freight_agents.damage_assessor.mcp_server import build_damage_server
 
     desk = AssessmentDesk(
         Stores.at(args.state), tms=FixtureTms(args.tms), hand_off=_no_hand_off, models=_no_model
@@ -138,6 +140,8 @@ def _mcp(args: argparse.Namespace) -> int:
 
 
 def _eval(args: argparse.Namespace) -> int:
+    from freight_agents.evals.recording import StaleCassette
+
     from freight_agents.damage_assessor.calibration import DEFAULT_FILE
     from freight_agents.damage_assessor.evaluation import (
         FLOORS,
@@ -147,7 +151,6 @@ def _eval(args: argparse.Namespace) -> int:
         run_recorded,
         write_report,
     )
-    from freight_agents.evals.recording import StaleCassette
 
     if args.mode == "record":
         from freight_agents.llm.anthropic_adapter import AnthropicModel
@@ -217,16 +220,12 @@ def main(argv: list[str] | None = None) -> int:
     commands.add_parser("mcp", help="serve the read tools over MCP on stdio")
 
     evaluate = commands.add_parser("eval", help="grade the golden shipments; exit 1 on the gate")
-    evaluate.add_argument(
-        "--reports", type=Path, default=Path("apps/damage-assessor/evals/reports")
-    )
+    evaluate.add_argument("--reports", type=Path, default=Path("evals/reports"))
     evaluate.add_argument("--day", default=dt.date.today().isoformat())
     evaluate.add_argument(
         "--mode", choices=["reference", "recorded", "record"], default="reference"
     )
-    evaluate.add_argument(
-        "--cassettes", type=Path, default=Path("apps/damage-assessor/evals/cassettes")
-    )
+    evaluate.add_argument("--cassettes", type=Path, default=Path("evals/cassettes"))
     evaluate.add_argument("--model-name", default="claude-opus-5-5")
     evaluate.add_argument("--max-usd", type=float, default=0.0, help="record: the approved cap")
     evaluate.add_argument("--limit", type=int, help="record: only the first N shipments")

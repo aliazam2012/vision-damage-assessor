@@ -24,8 +24,6 @@ jobs:
           version: "0.13.9"
       - run: uv python install 3.12
       - run: make setup
-      - name: headless browser for the carrier portal tests
-        run: uv run --all-packages playwright install --with-deps --only-shell chromium
       - run: make check
       - name: evaluation gate
         run: make eval
@@ -36,8 +34,8 @@ jobs:
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - uses: astral-sh/setup-uv@d0cc045d04ccac9d8b7881df0226f9e82c39688e # v6
-      - run: uv run --package freight-agents-devtools freight-purity .
-      - run: uv run --package freight-agents-devtools freight-links .
+      - run: uv run freight-purity .
+      - run: uv run freight-links .
 
   secrets:
     name: secret scanning

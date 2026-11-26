@@ -2,6 +2,8 @@ import json
 from pathlib import Path
 
 import pytest
+from PIL import Image
+
 from freight_agents.damage_assessor.domain import Finding
 from freight_agents.damage_assessor.images import (
     ALLOWED_LICENSES,
@@ -10,9 +12,8 @@ from freight_agents.damage_assessor.images import (
     parse_manifest,
     write_synthetic,
 )
-from PIL import Image
 
-DATA = Path(__file__).resolve().parents[3] / "data" / "damage"
+DATA = Path(__file__).resolve().parents[1] / "data" / "damage"
 
 
 @pytest.fixture(scope="module")

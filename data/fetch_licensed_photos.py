@@ -13,8 +13,9 @@ import time
 import urllib.request
 from pathlib import Path
 
-from freight_agents.damage_assessor.images import load_manifest
 from PIL import Image
+
+from freight_agents.damage_assessor.images import load_manifest
 
 ROOT = Path(__file__).resolve().parent.parent
 LICENSED = ROOT / "data" / "damage" / "licensed"

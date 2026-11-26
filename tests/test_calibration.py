@@ -2,6 +2,7 @@ import random
 from pathlib import Path
 
 import pytest
+
 from freight_agents.damage_assessor.calibration import (
     DEFAULT_FILE,
     Scored,

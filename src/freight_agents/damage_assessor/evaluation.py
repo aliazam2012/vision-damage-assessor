@@ -29,6 +29,12 @@ from pathlib import Path
 from typing import Any
 
 from freight_agents.claims_intake.domain import ClaimFields
+from freight_agents.evals.recording import RecordResult, record_cases, replay_model
+from freight_agents.integrations.email import Attachment, EmailMessage
+from freight_agents.integrations.tms import FixtureTms
+from freight_agents.llm import Model, ModelTurn, ScriptedModel, ToolCall, Usage
+from pydantic import BaseModel, ConfigDict
+
 from freight_agents.damage_assessor.calibration import (
     Calibration,
     Scored,
@@ -45,11 +51,6 @@ from freight_agents.damage_assessor.workflow import (
     Stores,
     reference_models,
 )
-from freight_agents.evals.recording import RecordResult, record_cases, replay_model
-from freight_agents.integrations.email import Attachment, EmailMessage
-from freight_agents.integrations.tms import FixtureTms
-from freight_agents.llm import Model, ModelTurn, ScriptedModel, ToolCall, Usage
-from pydantic import BaseModel, ConfigDict
 
 GOLDEN = Path(__file__).resolve().parents[3] / "evals" / "shipments.jsonl"
 AT = dt.datetime(2026, 11, 25, 9, 0, tzinfo=dt.UTC)

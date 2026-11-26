@@ -20,6 +20,13 @@ from typing import Any, Literal
 
 from freight_agents.agentcore.approvals import AuditLog
 from freight_agents.claims_intake.domain import ClaimFields
+from freight_agents.integrations.email import EmailMessage
+from freight_agents.integrations.tms import Shipment, TmsClient
+from freight_agents.llm import Model
+from freight_agents.statecore.engine import CaseEngine
+from freight_agents.statecore.machine import CaseView, StateMachine, Transition
+from freight_agents.statecore.store import SqliteEventStore
+
 from freight_agents.damage_assessor.calibration import Calibration, load_calibration
 from freight_agents.damage_assessor.domain import (
     Assessment,
@@ -31,12 +38,6 @@ from freight_agents.damage_assessor.domain import (
 from freight_agents.damage_assessor.extract import Photo, extract, reference_model
 from freight_agents.damage_assessor.rules import ClaimFacts, decide
 from freight_agents.damage_assessor.sources import SOURCES
-from freight_agents.integrations.email import EmailMessage
-from freight_agents.integrations.tms import Shipment, TmsClient
-from freight_agents.llm import Model
-from freight_agents.statecore.engine import CaseEngine
-from freight_agents.statecore.machine import CaseView, StateMachine, Transition
-from freight_agents.statecore.store import SqliteEventStore
 
 ASSESSMENT_MACHINE = StateMachine(
     name="assessment",

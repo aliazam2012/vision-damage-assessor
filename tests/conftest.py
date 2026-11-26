@@ -7,14 +7,15 @@ from typing import Any
 import pytest
 from freight_agents.claims_intake.workflow import ClaimsIntake
 from freight_agents.claims_intake.workflow import Stores as ClaimsStores
-from freight_agents.damage_assessor.images import load_labels, load_manifest
-from freight_agents.damage_assessor.workflow import AssessmentDesk, Stores, reference_models
 from freight_agents.integrations.email import EmailMessage, parse_eml
 from freight_agents.integrations.tms import FixtureTms
 from freight_agents.llm import ModelTurn, ScriptedModel, ToolCall, Usage
 from freight_agents.statecore.machine import CaseView
 
-DATA = Path(__file__).resolve().parents[3] / "data" / "damage"
+from freight_agents.damage_assessor.images import load_labels, load_manifest
+from freight_agents.damage_assessor.workflow import AssessmentDesk, Stores, reference_models
+
+DATA = Path(__file__).resolve().parents[1] / "data" / "damage"
 T0 = dt.datetime(2026, 11, 24, 10, 0, tzinfo=dt.UTC)
 SHIPMENT = {
     "pro_number": "7741-2209",

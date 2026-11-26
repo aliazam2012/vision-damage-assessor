@@ -22,10 +22,11 @@ from freight_agents.agentcore.guards import cap_size
 from freight_agents.agentcore.hooks import HookContext
 from freight_agents.agentcore.taint import TaintSet
 from freight_agents.agentcore.tools import Risk, ToolRegistry, tool
-from freight_agents.damage_assessor.domain import Finding
 from freight_agents.llm import ImagePart, Model, ModelTurn, ScriptedModel, TextPart, ToolCall, Usage
 from PIL import Image
 from pydantic import BaseModel, ConfigDict
+
+from freight_agents.damage_assessor.domain import Finding
 
 PROMPT = """<instructions>
 You describe freight damage in photos for a claims desk. The claimant's description and the

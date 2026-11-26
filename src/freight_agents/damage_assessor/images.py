@@ -18,9 +18,10 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Literal
 
-from freight_agents.damage_assessor.domain import DamageType, Finding, Severity, Visibility
 from PIL import Image, ImageDraw, ImageFont
 from pydantic import BaseModel, ConfigDict, field_validator
+
+from freight_agents.damage_assessor.domain import DamageType, Finding, Severity, Visibility
 
 ALLOWED_LICENSES = frozenset(
     {"Public domain", "No restrictions", "CC0", "CC BY 2.0", "CC BY 3.0", "CC BY 4.0"}

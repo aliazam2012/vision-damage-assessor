@@ -13,4 +13,4 @@ Report a vulnerability through GitHub's private vulnerability reporting on this 
 
 ## Scope
 
-In scope: a way to make an agent send, write or change state without the guards in [docs/THREAT-MODEL.md](docs/THREAT-MODEL.md) stopping it, a way around the approval queue, and leaks of secrets or personal data. All data in this repository is made up.
+In scope: a way to make an agent send, write or change state without the guards in [docs/THREAT-MODEL.md](https://github.com/aliazam2012/agent-runtime/blob/main/docs/THREAT-MODEL.md) stopping it, a way around the approval queue, and leaks of secrets or personal data. All data in this repository is made up.

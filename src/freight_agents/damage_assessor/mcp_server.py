@@ -9,11 +9,12 @@ from typing import Any
 from freight_agents.agentcore.guards import cap_size
 from freight_agents.agentcore.hooks import HookContext
 from freight_agents.agentcore.tools import Risk, Tool, ToolRegistry, strict_schema, tool
-from freight_agents.damage_assessor.domain import Evidence, Finding
-from freight_agents.damage_assessor.workflow import AssessmentDesk
 from freight_agents.llm import ToolSpec
 from freight_agents.mcp.bridge import Route, RouteError, build_server
 from pydantic import BaseModel
+
+from freight_agents.damage_assessor.domain import Evidence, Finding
+from freight_agents.damage_assessor.workflow import AssessmentDesk
 
 INSTRUCTIONS = (
     "Damage claims are assessed from their photos: a model describes, rules decide. Read an "
